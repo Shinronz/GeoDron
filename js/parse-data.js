@@ -1,5 +1,5 @@
 function getDatosMetar(lat, long, callback) {
-	$.post('../db/metar.php', {'lat': lat, 'long': long}).done(function(data) {
+	$.post('db/metar.php', {'lat': lat, 'long': long}).done(function(data) {
 		if(data) {
 			callback(JSON.parse(data));
 		} else {
@@ -9,7 +9,7 @@ function getDatosMetar(lat, long, callback) {
 }
 
 function getDatosTaf(lat, long, callback) {
-	$.post('../db/taf.php', {'lat': lat, 'long': long}).done(function(data) {
+	$.post('db/taf.php', {'lat': lat, 'long': long}).done(function(data) {
 		if(data) {
 			callback(JSON.parse(data));
 		} else {
@@ -19,7 +19,7 @@ function getDatosTaf(lat, long, callback) {
 }
 
 function getDatosSigmet(lat, long, callback) {
-	$.post('../db/sigmet.php', {'lat': lat, 'long': long}).done(function(data) {
+	$.post('db/sigmet.php', {'lat': lat, 'long': long}).done(function(data) {
 		if(data) {
 			callback(JSON.parse(data));
 		} else {
