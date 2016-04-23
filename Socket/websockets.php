@@ -296,12 +296,18 @@ abstract class WebSocketServer {
   }
 
   public function stdout($message) {
+  	$myfile = fopen("/home/nasa/errorsock.log","a+");
+    fwrite($myfile,($message."\n"));
+    fclose($myfile);
     if ($this->interactive) {
       echo "$message\n";
     }
   }
 
   public function stderr($message) {
+  	$myfile = fopen("/home/nasa/errorsock.log","a+");
+    fwrite($myfile,($message."\n"));
+    fclose($myfile);
     if ($this->interactive) {
       echo "$message\n";
     }
@@ -504,9 +510,11 @@ abstract class WebSocketServer {
     $header['length'] = (ord($message[1]) >= 128) ? ord($message[1]) - 128 : ord($message[1]);
 
     if ($header['length'] == 126) {
-      if ($header['hasmask']) {
-        $header['mask'] = $message[4] . $message[5] . $message[6] . $message[7];
-      }
+      if(isset($message[4]) && isset($message[5]) && isset($message[6]) && isset($message[7])) {
+ 	if ($header['hasmask']) {
+             $header['mask'] = $message[4] . $message[5] . $message[6] . $message[7];
+      	    }
+	}
       $header['length'] = ord($message[2]) * 256 
                 + ord($message[3]);
     } 
