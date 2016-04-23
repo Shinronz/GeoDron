@@ -19,10 +19,10 @@ if(!preg_match("/^(-)?\d{1,3}(\.\d+)?$/", $long)):
 	die('Longitud no valida');
 endif;
 
-$minLat = $lat - 40;
-$minLong = $long - 40;
-$maxLat = $lat + 40;
-$maxLong = $long + 40;
+$minLat = $lat - 5;
+$minLong = $long - 5;
+$maxLat = $lat + 5;
+$maxLong = $long + 5;
 
 # Posible error de conexión o fin de tiempo de espera
 try {

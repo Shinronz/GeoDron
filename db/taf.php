@@ -1,5 +1,5 @@
 <?php
-require_once '../fachada/MeteorologiaAerea.php';
+require_once '../fachada/TerminalPronostico.php';
 
 $lat = isset($_POST['lat'])? $_POST['lat'] : null;
 $long = isset($_POST['long'])? $_POST['long'] : null;
@@ -19,15 +19,15 @@ if(!preg_match("/^(-)?\d{1,3}(\.\d+)?$/", $long)):
 	die('Longitud no valida');
 endif;
 
-$minLat = $lat - 20;
-$minLong = $long - 20;
-$maxLat = $lat + 20;
-$maxLong = $long + 20;
+$minLat = $lat - 5;
+$minLong = $long - 5;
+$maxLat = $lat + 5;
+$maxLong = $long + 5;
 
 # Posible error de conexión o fin de tiempo de espera
 try {
-	$ma = new MeteorologiaAerea($minLat, $minLong, $maxLat, $maxLong);
-	$puntos = $ma->getPuntos();
+	$tp = new TerminalPronostico($minLat, $minLat, $maxLat, $maxLong);
+	$puntos = $tp->getPuntos();
 	if($puntos):
 		die(json_encode($puntos));
 	else:
