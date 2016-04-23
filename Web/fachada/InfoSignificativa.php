@@ -10,6 +10,7 @@ class InfoSignificativa
 	// Construcción de array a partir de datos en xml
 	public function __construct($minLat, $minLong, $maxLat, $maxLong)
 	{
+		$this->areas = array();
 		$xmlStr = file_get_contents("http://www.aviationweather.gov/adds/dataserver_current/httpparam?dataSource=airsigmets&requestType=retrieve&format=xml&minLat=" . $minLat . "&minLon=" . $minLong . "&maxLat=" . $maxLat . "&maxLon=" . $maxLong . "&hoursBeforeNow=1");
 
 		if($xmlStr != null) {
