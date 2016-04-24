@@ -18,7 +18,7 @@
 <link rel="shortcut icon" href="images/drone.png">
   <meta name="viewport" content="width=device-width,initial-scale=1">
 <link href="css/base.css" rel="stylesheet">
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyDtHKDeyiUpMgVSYXIGWfImz4ebvDeXWTA&sensor=false&language=es&libraries=geometry"></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyDtHKDeyiUpMgVSYXIGWfImz4ebvDeXWTA&sensor=true&language=es&libraries=geometry"></script>
 
 
 </head>
@@ -204,7 +204,7 @@
 
 <div class="fbtn-container">
     <div class="fbtn-inner">
-        <a class="fbtn" href="javascript:void(0);" onClick="centrar()" id="ccenter" >
+        <a class="fbtn" href="javascript:void(0);" onClick="centrar()" id="ccenter">
             <span  class="fbtn-ori icon icon-2x text-white-hint">my_location</span>
         </a>
          <a class="fbtn" href="javascript:void(0);" onClick="agrandar(this.id,'mainclima','ic')" id="cclima" >
@@ -227,7 +227,7 @@
                  </div>
             </div>
         </a>
-        <a class="fbtn" href="javascript:void(0);" onClick="agrandar(this.id,'mains','is')"  id="cs" >
+        <a class="fbtn" href="javascript:void(0);" onClick="agrandar(this.id,'mains','is')"  id="cs">
           <span class="fbtn-ori icon icon-2x text-white-hint" id="is">signal_wifi_4_bar</span>
           <div class="card-main" id="mains" style="display: none;">
           
@@ -253,7 +253,7 @@
             </div>
         </a>
        
-        <a class="fbtn "      href="javascript:void(0);" onClick="agrandar(this.id,'mainalerta','ia')" id="calerta" >
+        <a class="fbtn "      href="javascript:void(0);" onClick="agrandar(this.id,'mainalerta','ia')" id="calerta">
           <span class="fbtn-ori icon icon-2x text-white-hint" id="ia">report</span>
           <div class="card-main" id="mainalerta"  style="display: none;">
             <div class="card-inner text-center" id="alertas" style="padding:10px;margin:0;height:120px;overflow-y: scroll;" class="alertas"> 
@@ -289,32 +289,36 @@ var vecmetar = new Array();
 <?php
   //Declarando variables globales
   $band=0; $cont=0; $contv=0;
-  while($pol=mysqli_fetch_array($poligonos)){
-         $cont++;
-         if($band!=$pol['idpoligono']){ 
-            if($band>0){echo "];"; ?>
-                vecvertices[<?php echo $contv;?>]=new Array();
-                vecvertices[<?php echo $contv;?>][0] = <?php echo "poligono".$band;?>;
-                vecvertices[<?php echo $contv;?>][1] = "<?php echo $pol['idpoligono']; ?>";
-                vecvertices[<?php echo $contv;?>][2] = "<?php echo $pol['color']; ?>";
-                vecvertices[<?php echo $contv;?>][3] = "<?php echo $pol['nombre']; ?>";
-                vecvertices[<?php echo $contv;?>][4] = "<?php echo $pol['descripcion']; ?>";
-                vecvertices[<?php echo $contv;?>][5] = "<?php echo $pol['idcapa']; ?>"; 
-                  <?php $contv++; }  ?>
-            var <?php echo "poligono".$pol['idpoligono']; $band= $pol['idpoligono']; ?> = [ <?php 
-          }  ?>
-          new google.maps.LatLng(<?php echo $pol['latitud'].", ".$pol['longitud']; ?>)
-          <?php if($cont==$nrores) { echo "];";?>
-          vecvertices[<?php echo $contv;?>] = new Array();
-          vecvertices[<?php echo $contv;?>][0] = <?php echo "poligono".$band;?>;
-            vecvertices[<?php echo $contv;?>][1] = "<?php echo $pol['idpoligono']; ?>";
-            vecvertices[<?php echo $contv;?>][2] = "<?php echo $pol['color']; ?>";
-            vecvertices[<?php echo $contv;?>][3] = "<?php echo $pol['nombre']; ?>";
-            vecvertices[<?php echo $contv;?>][4] = "<?php echo $pol['descripcion']; ?>";
-            vecvertices[<?php echo $contv;?>][5] = "<?php echo $pol['idcapa']; ?>";
-           <?php $contv++; } else { echo ","; } ?>
-<?php }//cierro el while ?>
 
+  while($pol=mysqli_fetch_array($poligonos)){
+      if($band!=$pol['idpoligono']){ 
+          if($cont>0){ echo "];";}
+             echo "var poligono".$pol['idpoligono']."= [ "; $band= $pol['idpoligono'];  
+             $cont++;  
+             ?>
+             
+               <?php   }  ?>
+               new google.maps.LatLng(<?php echo $pol['latitud'].", ".$pol['longitud']; ?>),
+               <?php } if($nrores>0) {echo "];";}?>
+
+
+               
+
+<?php 
+$contv=0;
+$band=0;
+ mysqli_data_seek($poligonos,0); while($pol=mysqli_fetch_array($poligonos)){ 
+          if($band!=$pol['idpoligono']){ $band= $pol['idpoligono'];  ?>
+
+              vecvertices[<?php echo $contv;?>]=new Array();
+              vecvertices[<?php echo $contv;?>][0] = <?php echo "poligono".$pol['idpoligono'];?>;
+              vecvertices[<?php echo $contv;?>][1] = "<?php echo $pol['idpoligono']; ?>";
+              vecvertices[<?php echo $contv;?>][2] = "<?php echo $pol['color']; ?>";
+              vecvertices[<?php echo $contv;?>][3] = "<?php echo $pol['nombre']; ?>";
+              vecvertices[<?php echo $contv;?>][4] = "<?php echo $pol['descripcion']; ?>";
+              vecvertices[<?php echo $contv;?>][5] = "<?php echo $pol['idcapa']; ?>"; 
+
+             <?php $contv++;}}?>
 
 
 var marker;
@@ -357,7 +361,7 @@ $('#ratio').mousemove( function() {
 });
 
 //card desplazables
-
+/*
 window.onkeydown = function (e) {
     var code = e.keyCode ? e.keyCode : e.which;
     if (code === 38) { //up key
@@ -382,7 +386,7 @@ var yy2=parseFloat(-60.650883);
 
 
       
-
+*/
  
  $(document).ready(function(){ 
 
@@ -502,7 +506,7 @@ $.getJSON('position.json', function(data) {
   	ila=data.alt;
   
     var pos_A = new google.maps.LatLng(parseFloat(data.lat),parseFloat(data.long));
-    initialize( pos_A);
+    //initialize( pos_A);
       var options = {
         zoom: 16,
         center: new google.maps.LatLng(parseFloat(data.lat),parseFloat(data.long)),
@@ -590,9 +594,7 @@ $("#reit").html("("+c+")");
 
  function WebSocketTest(){
             if ("WebSocket" in window)  {
-               
-              
-               // Let us open a web socket
+             
             var ws = new WebSocket('ws://spaceappsros.cloudapp.net:6789');
 
             ws.onopen = function () {
@@ -704,9 +706,7 @@ function actualizardata(data){
 
           //filling the image src attribute with the image url
           $('#img').attr('src', img);
-       //    $('#mainclima').css('display', 'block');
-     //      $('#loaderclima').css('display', 'none');
-          
+
           }
         });
 
@@ -720,12 +720,15 @@ function actualizardata(data){
            
            setTimeout(function(){
               $("#mainalerta").css("display","block");
+
+             
+              
             },800); 
       
         first=false;
       }
 
-
+             
           updateBatteryDisplay(data.batery);
           
 	    		$("#lat").html(" "+data.lat);
@@ -733,31 +736,31 @@ function actualizardata(data){
 	    		$("#alt").html(" "+(data.alt*0.3048).toFixed(2)+"mts.");
           $("#idd").html(" "+data.id);
 
-         //    latl=new google.maps.LatLng(parseFloat(data.lat)+d,parseFloat(data.long)+d);
+             latl=new google.maps.LatLng(parseFloat(data.lat),parseFloat(data.long));
 
-          //    marker.setPosition(latl);
-         //    Circle.set("center",latl);
+              marker.setPosition(latl);
+             Circle.set("center",latl);
+             alertar(latl);
               //agrego el punto al array de la ruta
-         //     path.push(latl);
+              path.push(latl);
         //cargo la nueva ruta en la polilinea
-        //     poliLinea.setPath(path);
-          if(p<100){
-            $("#sensor1").html(" "+data.sensor1+"cm.");
-          }else{
-            $("#sensor1").html("Libre");
-          }
-          
-           p=data.sensor1;
-          $("#time").html(" "+data.time);
-   //	      $("#mains").css("display","block");
-  //        $("#loaders").css("display","none");
-  //        
-          $("#cs").css("opacity",.9);
-         
-            dsc=false;
-          c=0;
-  //         $("#maininfo").css("display","block");
-   //       $("#loaderinfo").css("display","none");
+             poliLinea.setPath(path);
+
+             p=data.sensor1;
+            if(p<100){
+              $("#sensor1").html(" "+data.sensor1+"cm.");
+            }else{
+              $("#sensor1").html("Libre");
+            }
+            
+             
+            $("#time").html(" "+data.time);
+           
+            $("#cs").css("opacity",.9);
+           
+              dsc=false;
+            c=0;
+
         banim=true;
       // point=new google.maps.LatLng(parseFloat(data.lat)+d,parseFloat(data.long)-d);
          /*
@@ -772,6 +775,98 @@ function actualizardata(data){
  
 }
 
+
+//card desplazables
+/*
+function carga(){
+    posicion=0;
+    setTimeout(function(){
+      
+      WebSocketTest();
+      $(".floatcard").css("opacity","0.7");}, 1500);
+    $("#map").css("opacity","1");
+    // IE
+    if(navigator.userAgent.indexOf("MSIE")>=0) navegador=0;
+    // Otros
+    else navegador=1;
+}
+
+ var tt=$( "#calerta" ).offset().bottom;
+ var rr=(($(window).width() - $( "#calerta" ).width()) - $( "#calerta" ).offset().left);
+       */
+     /*         
+function evitaEventos(event){
+    // Funcion que evita que se ejecuten eventos adicionales
+    if(navegador==0)
+    {
+        window.event.cancelBubble=true;
+        window.event.returnValue=false;
+    }
+    if(navegador==1) event.preventDefault();
+}
+ 
+function comienzoMovimiento(event, id){
+    elMovimiento=document.getElementById(id);
+   
+     // Obtengo la posicion del cursor
+    if(navegador==0)
+     {
+        cursorComienzoX=-window.event.clientX+document.documentElement.scrollLeft+document.body.scrollLeft;
+        cursorComienzoY=-window.event.clientY+document.documentElement.scrollTop+document.body.scrollTop;
+ 
+        document.attachEvent("onmousemove", enMovimiento);
+        document.attachEvent("onmouseup", finMovimiento);
+    }
+    if(navegador==1)
+    {   
+        cursorComienzoX=-event.clientX+window.scrollX;
+        cursorComienzoY=-event.clientY+window.scrollY;
+       
+        document.addEventListener("mousemove", enMovimiento, true);
+        document.addEventListener("mouseup", finMovimiento, true);
+    }
+   
+
+    elComienzoX=parseInt(elMovimiento.style.right);
+    elComienzoY=parseInt(elMovimiento.style.bottom);
+    // Actualizo el posicion del elemento
+    elMovimiento.style.zIndex=++posicion;
+   
+    evitaEventos(event);
+}
+ 
+function enMovimiento(event){ 
+    var xActual, yActual;
+    if(navegador==0)
+    {   
+        xActual=-window.event.clientX+document.documentElement.scrollLeft+document.body.scrollLeft;
+        yActual=-window.event.clientY+document.documentElement.scrollTop+document.body.scrollTop;
+    } 
+    if(navegador==1)
+    {
+        xActual=-event.clientX+window.scrollX;
+        yActual=-event.clientY+window.scrollY;
+    }
+   
+    elMovimiento.style.right=(elComienzoX+xActual-cursorComienzoX)+"px";
+    elMovimiento.style.bottom=(elComienzoY+yActual-cursorComienzoY)+"px";
+ 
+    evitaEventos(event);
+}
+ 
+function finMovimiento(event){
+    if(navegador==0)
+    {   
+        document.detachEvent("onmousemove", enMovimiento);
+        document.detachEvent("onmouseup", finMovimiento);
+    }
+    if(navegador==1)
+    {
+        document.removeEventListener("mousemove", enMovimiento, true);
+        document.removeEventListener("mouseup", finMovimiento, true);
+    }
+}
+ 
 
 google.maps.Marker.prototype.animateTo = function(nuelat,nuelon, options) {
 	var newPosition = {lat: nuelat, lng: nuelon};
@@ -839,9 +934,9 @@ google.maps.Marker.prototype.animateTo = function(nuelat,nuelon, options) {
       // use requestAnimationFrame if it exists on this browser. If not, use setTimeout with ~60 fps
       if (window.requestAnimationFrame) {
         marker.AT_animationHandler = window.requestAnimationFrame(function() {animateStep(marker, startTime)});                
-      }/* else {
+      } else {
         marker.AT_animationHandler = setTimeout(function() {animateStep(marker, startTime)}, 17); 
-      }*/
+      }
 
     } else {
       
@@ -867,6 +962,6 @@ google.maps.Marker.prototype.animateTo = function(nuelat,nuelon, options) {
   
   animateStep(this, (new Date()).getTime());
 }
-
+*/
 
 </script>

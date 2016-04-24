@@ -45,7 +45,7 @@ function crearPoligonos(latA, lngA){
               map: null,
               info: "<div><b>" + vecvertices[i][3] + "</b></div><div>" + vecvertices[i][4] + "</div>"
       });
-      var tolerance= 20000*0.001 / 111.320;
+      var tolerance= 8000*0.001 / 111.320;
       var pointt= new google.maps.LatLng(latA, lngA);
       var resul2 =  google.maps.geometry.poly.containsLocation(pointt, poligono);
       var rsul = google.maps.geometry.poly.isLocationOnEdge(pointt, poligono, tolerance);
@@ -68,6 +68,7 @@ function initialize(pos_A) {
             var lat= data[i]["lat"];
             var lon= data[i]["long"];
             var myLatLng = {lat: lat, lng: lon};
+           
             var image = "images/nube.png";
             var markerZona = new google.maps.Marker({
               position: myLatLng,
@@ -104,6 +105,7 @@ function initialize(pos_A) {
             var lat= data[i]["lat"];
             var lon= data[i]["long"];
             var myLatLng = {lat: lat, lng: lon};
+            
             var image =  'images/nube.png';
             var markerZona = new google.maps.Marker({
               position: myLatLng,
@@ -156,6 +158,7 @@ function initialize(pos_A) {
 function alertar(point){
   var mensaje;
   var changeShadow = 0;
+ 
   for (var i = 0; i < vecvertices.length; i++) {
       var tolerancia= radioalerta*0.001 / 111.320;
       if(vecvertices[i][6]){
@@ -190,21 +193,24 @@ function alertar(point){
               $('#alertas').animate({scrollTop: $('#alertas').prop("scrollHeight")}, 300);
             }
             
-        } //cierro el if de que si estaen borde o el interior
-        /*for(var h=0; h<vecNotif.length; h++){
-            if (vecNotif[h]==(i+"p")  || vecNotif[h]==(i+"a")){
-              vecNotif[h] = "";
+        } else {
+            for(var h=0; h<vecNotif.length; h++){
+                if (vecNotif[h]==(i+"p")  || vecNotif[h]==(i+"a")){
+                  vecNotif[h] = "disabled";
+                }
             }
-        }*/
+        }
     } //cierro si esta definido
+
   } //cierro el for
-  var radioalertamarker=8000;
+  var radioalertamarker=20000;
+
   for (var i = 0; i < vecmetar.length; i++) {
         var tolerancia= radioalertamarker*0.001 / 111.320;
         var rsul = google.maps.geometry.poly.isLocationOnEdge(point, vecmetar[i][0], tolerancia);
         if(rsul){
             var existe="nulo";
-            if(changeShadow==0){changeShadow = 2;}
+            
             if (vecmetar[i][6]=="metar") {
               var mensaje = "<u>Atencion</u>: Temperatura: "+vecmetar[i][1]+". Punto rocio: "+vecmetar[i][2]+". Visibilidad: "+vecmetar[i][3]+". Velocidad viento: "+vecmetar[i][4]+". Orientacion viento: "+vecmetar[i][5]+".<br>";
             } else{
@@ -215,8 +221,11 @@ function alertar(point){
                   existe = "met";
                 }
             }
+          
             if(existe=="nulo"){ 
               $('#alertas').append(mensaje); 
+      
+              if(changeShadow==0){changeShadow = 2;}
               vecNotif.push(i+"met"); 
               $('#alertas').animate({scrollTop: $('#alertas').prop("scrollHeight")}, 300);
             }
