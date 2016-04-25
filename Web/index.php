@@ -214,14 +214,14 @@
                
                 <div id="forecast" class="text-center">
 
-                  <h5><span id="location"> </span></h5>
+                  <span id="location" style="color:#b8b8b8;"> </span>
                   <div class="col-md-3" id="imgdiv">
-                    <img id="img" src=""/>
+                    <img id="img" style="margin-top: 40px;" src=""/>
                   </div>
                   <div class="col-md-9">
 
                    
-                     <p id="desc"> </p>
+                     <p id="desc" style="margin:0;"> </p>
                      
                   </div>
                  </div>
@@ -255,7 +255,7 @@
        
         <a class="fbtn "      href="javascript:void(0);" onClick="agrandar(this.id,'mainalerta','ia')" id="calerta">
           <span class="fbtn-ori icon icon-2x text-white-hint" id="ia">report</span>
-          <div class="card-main" id="mainalerta"  style="display: none;">
+          <div class="card-main" id="mainalerta"  style="display: none;padding:0;">
             <div class="card-inner text-center" id="alertas" style="padding:10px;margin:0;height:120px;overflow-y: scroll;" class="alertas"> 
               Notificaciones de alerta:<br>
              
@@ -421,10 +421,10 @@ function agrandar(id,disp,ic){
          $("#"+ic).css("opacity","0");
 
         if(id=="calerta"){
-            $("#"+id).css("height",100+"px");
+            $("#"+id).css("height",120+"px");
              $("#"+id).css("width",400+"px");
         }else{
-           $("#"+id).css("height",145+"px");
+           $("#"+id).css("height",130+"px");
            $("#"+id).css("width",250+"px");
         }
         setTimeout(function(){
@@ -715,7 +715,7 @@ function actualizardata(data){
            $("#ia").css("opacity","0");
 
             
-           $("#calerta").css("height",130+"px");
+           $("#calerta").css("height",120+"px");
            $("#calerta").css("width",350+"px");
            
            setTimeout(function(){
@@ -762,7 +762,7 @@ function actualizardata(data){
             c=0;
 
         banim=true;
-      // point=new google.maps.LatLng(parseFloat(data.lat)+d,parseFloat(data.long)-d);
+      //point=new google.maps.LatLng(parseFloat(data.lat)+d,parseFloat(data.long)-d);
          /*
         if(seguir){map.panTo(point);}
               //agrego el punto al array de la ruta
@@ -791,10 +791,9 @@ function carga(){
     else navegador=1;
 }
 
- var tt=$( "#calerta" ).offset().bottom;
+ var tt=(($(window).height() - $( "#calerta" ).height())-$( "#calerta" ).offset().bottom);
  var rr=(($(window).width() - $( "#calerta" ).width()) - $( "#calerta" ).offset().left);
-       */
-     /*         
+
 function evitaEventos(event){
     // Funcion que evita que se ejecuten eventos adicionales
     if(navegador==0)
@@ -827,8 +826,8 @@ function comienzoMovimiento(event, id){
     }
    
 
-    elComienzoX=parseInt(elMovimiento.style.right);
-    elComienzoY=parseInt(elMovimiento.style.bottom);
+    elComienzoX=parseInt(rr);
+    elComienzoY=parseInt(bb);
     // Actualizo el posicion del elemento
     elMovimiento.style.zIndex=++posicion;
    
@@ -866,8 +865,8 @@ function finMovimiento(event){
         document.removeEventListener("mouseup", finMovimiento, true);
     }
 }
- 
-
+ */
+/*
 google.maps.Marker.prototype.animateTo = function(nuelat,nuelon, options) {
 	var newPosition = {lat: nuelat, lng: nuelon};
         
