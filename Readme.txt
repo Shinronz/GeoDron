@@ -12,8 +12,8 @@ Socket/		--->	Socket server side build on php
 Web/		--->	Final solution of the project, need socket server and android-apk running for the correct use
 
 
-The full report of the project can be found in: Documentacion/Informe-GeoDrone.pdf (English and Spanish)
+The full report of the project can be found in: Documentacion/Report GeoDrone.pdf (English and Spanish)
 
-For a live demo go to: http://spaceappsros.cloudapp.net/
+For a live demo go to: http://spaceappsros.cloudapp.net/  (login: aaa@aaa.com   pw: 0000)   
 
-And a presentation of the project can be found in: http://spaceappsros.cloudapp.net/presentacion
+And a presentation of the project can be found in: http://spaceappsros.cloudapp.net/presentacion    (Only spanish version)
