@@ -5,7 +5,7 @@ Contents of directories:
 Apk-Android/	--->	Source Code and last compilation of android apk
 Arduino/	--->	Source Code of arduino robot
 BaseDatos/	--->	.sql query for build new DB with the struct predifined (MySQL prefered)
-Documentacion/	--->	Some documentation of: -License for free soft (GNU) -Final report of the solution -Architecture of the project
+Documentacion/	--->	Some documentation of: -ScreenShot of the web aplication -License for free soft (GNU) -Final report of the solution -Architecture of the project
 Logo/		--->	Some .png images used in the project
 Presentacion/	--->	Presentation of the project in Web format (Can be used without internet connection)
 Socket/		--->	Socket server side build on php

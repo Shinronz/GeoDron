@@ -11,8 +11,18 @@ class echoServer extends WebSocketServer {
   protected function process ($user, $message) {
     $this->stdout($message);
    // $this->send($user, $message);
+  $id = $user->userid;
+  $msgdecode = json_decode($message);
+  $msgnew = array("lat"=> $msgdecode->{'lat'}, "long"=> $msgdecode->{'long'}, "id"=> $id );
+  $msgnewjson = json_encode($msgnew);
    foreach ($this->users as $user){
-      $this->send($user,$message);
+      if($user->source == "js"){
+        if($user->userid == $id){
+        $this->send($user,$message);
+        }else {
+          $this->send($user,$msgnewjson);
+        }
+      }
     }
     $fb = fopen('/home/nasa/position.json', 'w'); 
     fwrite($fb,$message);

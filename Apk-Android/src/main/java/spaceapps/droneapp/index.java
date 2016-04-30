@@ -78,6 +78,7 @@ public class index extends AppCompatActivity {
     boolean conectado = false;
 
 
+    JSONObject socketconexion;
     private WebSocketClient mWebSocketClient;
     URI uri;
     //setter time
@@ -96,20 +97,38 @@ public class index extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        Intent intent= getIntent();
 
 
+        text = (TextView) findViewById(R.id.texto);
+        text.setText("Iniciando...");
+        View parentLayout = findViewById(R.id.app_bar);
+
+        text.setText("Obteniendo ID de dispositivo...\r\n" + text.getText());
+        id = intent.getStringExtra("iddispositivo");
+        text.setText("ID Dispositivo:"+id+"\r\n" + text.getText());
+        socketconexion= new JSONObject();
+
+        try {
+            socketconexion.put("source" ,"apk" );
+            socketconexion.put("userid",id);
 
 
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         fab.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
 
-                if(!b){
+                if (!b) {
 
-                    mWebSocketClient = new WebSocketClient(uri,new Draft_17()) {
+                    mWebSocketClient = new WebSocketClient(uri, new Draft_17()) {
                         @Override
                         public void onOpen(ServerHandshake serverHandshake) {
+
+                            mWebSocketClient.send(String.valueOf(socketconexion));
                             sendSocket myClient = new sendSocket();
                             myClient.start();
 
@@ -118,7 +137,7 @@ public class index extends AppCompatActivity {
                                 public void run() {
 
                                     text.setText("Conexión abierta" + "\r\n" + text.getText());
-                                    iniciado=true;
+                                    iniciado = true;
                                 }
 
                             });
@@ -156,11 +175,11 @@ public class index extends AppCompatActivity {
                         }
                     };
                     mWebSocketClient.connect();
-                    iniciado=true;
+                    iniciado = true;
 
                     text.setText("Servicio iniciado\r\n" + text.getText());
 
-                    b=true;
+                    b = true;
 
                     //conectado-> bandera de conexion con disp bluetooh apareado
                     if (!conectado) {
@@ -178,7 +197,7 @@ public class index extends AppCompatActivity {
                         }
                         conectado = true;
 
-                    }else{
+                    } else {
 
                     }
 
@@ -193,12 +212,7 @@ public class index extends AppCompatActivity {
 
             }
         });
-        text = (TextView) findViewById(R.id.texto);
-        text.setText("Iniciando...");
-        View parentLayout = findViewById(R.id.app_bar);
 
-        text.setText("Obteniendo ID de dispositivo...\n\r" + text.getText());
-        id = Secure.getString(getContentResolver(), Secure.ANDROID_ID);
 
 
         // Instance AsyncTask
@@ -281,7 +295,7 @@ public class index extends AppCompatActivity {
                 ub = locManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
             }
         }
-        text.setText(  "Localización obtenida exitosamente...\n\r"+text.getText());
+        text.setText(  "Localización obtenida exitosamente...\r\n"+text.getText());
 
         try {
             uri = new URI("ws://spaceappsros.cloudapp.net:6789");
@@ -520,7 +534,7 @@ public class index extends AppCompatActivity {
                     @Override
                     public void run() {
 
-                        text.setText(contadorenvios + ")" + currentDateandTime + "-Json creado -  enviando\r\n" + text.getText());
+                        text.setText("("+contadorenvios + ")" + currentDateandTime + "- Paquete enviando\r\n" + text.getText());
                         contadorenvios++;
 
                     }

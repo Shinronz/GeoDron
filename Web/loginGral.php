@@ -1,9 +1,20 @@
-<?php 
-session_start();
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+ <title>GeoDrone</title>
+  <meta name="description" content="Don't crash my drone">
+  <meta name="author" content="GeoDrone Inc.">
+  <link rel="shortcut icon" href="images/drone.png"> 
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link href="css/base.css" rel="stylesheet">
+<?php
 require_once 'db/class.login.php';
 
+session_start();
+
 if(isset($_SESSION['id'])):
-  header('location: piloto.php');
+  header('location: index.php');
 endif;
 
 if(isset($_POST['login'])):
@@ -12,13 +23,7 @@ if(isset($_POST['login'])):
 
   $errors = $login->getErrors();
   if(count($errors) == 0):
-    if($_POST['tipo'] == "P"):
-      header('location: piloto.php');
-    endif;
-
-    if($_POST['tipo'] == "E"):
-      header('location: experimental.php');
-    endif;
+    header('location: index.php');
   endif;
 else:
   $errors = array();
@@ -26,20 +31,6 @@ endif;
 
 $token = $_SESSION['token'] = md5(uniqid(mt_rand(), true));
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
- <title>GeoDrone</title>
-  <meta name="description" content="Aplicacion que provee información para conductores de drones acerca de inclemencias climaticas, zonas de no vuelo, posibles objetos con los que se pueda chocar y geolocalización en tiempo real.">
-  <meta name="author" content="GeoDrone Inc.">
-  <meta name="copyright" content="Este contenido pertenece a GeoDrone Inc.">
-  <meta name="robots" content="index,follow">
-  <meta name="keywords" content="geolocalizacion, no estrellar drone, no chocar drone, sistema de control de vuelo de drones, geodrone, dron, drone, drones, nasa, spaceapps">
-  <link rel="shortcut icon" href="images/drone.png"> 
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <link href="css/base.css" rel="stylesheet">
-
 <!-- ESTE STYLE CAMBIA EL FONDO DEL AUTOCOMPLETE A BLANCO -->
 <!-- ECHO POR JUAN -->
 
@@ -77,7 +68,7 @@ $token = $_SESSION['token'] = md5(uniqid(mt_rand(), true));
                         ?>
                       </p>                    
                       <div class="tab-pane fade active in" id="tabpiloto">
-                           <form action="index.php" method="POST" autocomplete="on" class="form.-control">
+                           <form action="loginGral.php" method="POST" autocomplete="on" class="form.-control">
                                <div class="form-group form-group-label">
                                     <label class="floating-label" for="usuarioP" style="color:#fff;">Usuario</label>
                                     <input type="text" class="form-control" maxlength="100" id="usuarioP"  style="color:#fff;border-color:#fff;" name="us" required="required">
@@ -115,7 +106,7 @@ $token = $_SESSION['token'] = md5(uniqid(mt_rand(), true));
                         </div>
 
                       <div class="tab-pane fade" id="tabexperimental">
-                         <form action="index.php" method="POST" autocomplete="on" class="form.-control">
+                         <form action="loginGral.php" method="POST" autocomplete="on" class="form.-control">
 
                                <div class="form-group form-group-label">
                                     <label class="floating-label" for="usuarioE" style="color:#fff;"> Usuario </label>

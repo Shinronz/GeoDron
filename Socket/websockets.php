@@ -408,7 +408,17 @@ abstract class WebSocketServer {
         } else {
           if ((preg_match('//u', $message)) || ($headers['opcode']==2)) {
             //$this->stdout("Text msg encoded UTF-8 or Binary msg\n".$message); 
-            $this->process($user, $message);
+            if(!isset($user->userid)){
+              $msgdecode = json_decode($message);
+              //$this->stdout($msgdecode->{'userid'});
+              //$this->stdout($msgdecode->{'source'});
+              $user->setData($msgdecode->{'userid'}, $msgdecode->{'source'});
+              /* if(!isset($user->userid)){
+                $user->setData(5,"test");
+               }*/
+            }else {
+              $this->process($user, $message);
+            }
           } else {
             $this->stderr("not UTF-8\n");
           }

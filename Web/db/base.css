@@ -78,7 +78,7 @@
     opacity: .8;
      background-size: 100% 100%;
   border: 0;
-  border-radius: 2px;
+
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15), 0 1px 3px 1px rgba(0, 0, 0, 0.15);
  
   cursor: pointer;
@@ -145,7 +145,7 @@
   width: 50vw;
   margin-top:30vh;
 }
-#alertas::-webkit-scrollbar { 
+#calerta::-webkit-scrollbar { 
     display: none; 
 }
 
@@ -2736,7 +2736,8 @@ template,
 }
 .fbtn {
   background-color: #f5f5f5;
-  border-radius: 50%;
+  border-radius: 20px;
+  -moz-border-radius: 20px;
   text-decoration: none;
   clear: both;
   color: #212121;
@@ -2746,7 +2747,7 @@ template,
   font-weight: 500;
   height: 40px;
   line-height: 20px;
- margin: 12px 0 12px auto;
+  margin: 12px 0 12px auto;
   padding: 0px 0;
   position: relative;
   text-align: center;
@@ -6395,17 +6396,6 @@ height:auto;
 .menu-top-info {
   padding: 12px 16px;
   position: relative;
-}
-.boxAlertaRojo{
-  background: rgba(255,0,0,0.61);
-}
-
-.boxAlertaVerde{
-  background: rgba(0,255,0,0.61);
-}
-
-.boxAlertaAmarillo{
-background: rgba(255,255,0,0.61);
 }
 @media only screen and (min-width: 768px) {
   .menu-top-info {

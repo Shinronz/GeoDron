@@ -97,21 +97,7 @@ function cargarVuelos(){
 }
 
 
-function cargarDrones(){
-  $.ajax({
-                  type: "POST",
-                  url: "db/cargaDrones.php",
-                  data: {},
-                  cache: false,
-                  success: function(html){
-                     $('#iddron').append(html); 
-                  },
-                  error: function(result) {
-                              alert(result);   
-                    }
-  });//cierro 
 
-}
 
 
 /*-------------------------------------------------*/
@@ -778,7 +764,7 @@ $(document).ready(function() {
     inicializarPagina();
     cargarCapas();
     cargarVuelos();
-    cargarDrones();
+    
       
 
     $('#confirmar').submit(function() {
